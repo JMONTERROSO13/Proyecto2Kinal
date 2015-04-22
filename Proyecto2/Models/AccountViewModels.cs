@@ -62,77 +62,13 @@ namespace Proyecto2.Models
         public string ConfirmPassword { get; set; }
 
         // New Fields added to extend Application User class:
-        [Required]
-        [StringLength(13)]
-        [Display(Name = "Identificación Personal(DPI)")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un DPI correcto")]
-        public string Dpi { get; set; }
-
-        [Required]
-        [StringLength(60, MinimumLength = 3)]
-        [Display(Name = "Nombres")]
-        public string Nombre { get; set; }
-
-        [Required]
-        [Display(Name = "Apellidos")]
-        [StringLength(60, MinimumLength = 3)]
-        public string Apellido { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Correo Electrónico")]
-        [EmailAddress]
-        public string Email { get; set; }
-         
-        [Required]
-        [StringLength(200, MinimumLength = 20)]
-        [Display(Name = "Direccion")]
-        public string Direccion { get; set; }
-
-        [Required]
-        [StringLength(11, MinimumLength = 8)]
-        [Display(Name = "Teléfono")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string Telefono { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 10)]
-        [Display(Name = "Nombre Primer Referencia")]
-        public string Referencia1 { get; set; }
-
-        [Required]
-        [StringLength(10, MinimumLength = 8)]
-        [Display(Name = "Telfono Primer Referencia")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string TelefonoReferencia1 { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 10)]
-        [Display(Name = "Nombre Segunda Referencia")]
-        public string Referencia2 { get; set; }
-
-        [Required]
-        [StringLength(12, MinimumLength = 8)]
-        [Display(Name = "Teléfono Segunda Referencia")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string TelefonoReferencia2 { get; set; }
-
+        
         // Return a pre-poulated instance of AppliationUser:
         public Users GetUser()
         {
             var user = new Users()
             {
-                UserName = this.UserName,
-                Email = this.Email,
-                Dpi = this.Dpi,
-                Nombre = this.Nombre,
-                Apellido = this.Apellido,
-                Direccion = this.Direccion,
-                Telefono = this.Telefono,
-                Referencia1 = this.Referencia1,
-                Referencia2 = this.Referencia2,
-                TelefonoReferencia1 = this.TelefonoReferencia1,
-                TelefonoReferencia2 = this.TelefonoReferencia2
+                UserName = this.UserName
             };
             return user;
         }
@@ -144,79 +80,35 @@ namespace Proyecto2.Models
         public EditUserViewModel() { }
 
         // Allow Initialization with an instance of Users:
-        public EditUserViewModel(Users user)
+        public EditUserViewModel(Users user, List<Persona> Persons)
         {
                 this.UserName = user.UserName;
-                this.Email = user.Email;
-                this.Dpi = user.Dpi;
-                this.Nombre = user.Nombre;
-                this.Apellido = user.Apellido;
-                this.Direccion = user.Direccion;
-                this.Telefono = user.Telefono;
-                this.Referencia1 = user.Referencia1;
-                this.Referencia2 = user.Referencia2;
-                this.TelefonoReferencia1 = user.TelefonoReferencia1;
-                this.TelefonoReferencia2 = user.TelefonoReferencia2;
+                this.Personas = Persons;
         }
         
-        [Required]
+        [Required]  
         [Display(Name = "Nombre De Usuario")]
         public string UserName { get; set; }
 
-        [Required]
-        [StringLength(13)]
-        [Display(Name = "Identificación Personal(DPI)")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un DPI correcto")]
-        public string Dpi { get; set; }
+        public virtual List<Persona> Personas { get; set; }
+
+    }
+
+    public class UserViewModel
+    {
+        public UserViewModel() { }
+
+        // Allow Initialization with an instance of Users:
+        public UserViewModel(Users user)
+        {
+            this.UserName = user.UserName;
+        }
 
         [Required]
-        [StringLength(60, MinimumLength = 3)]
-        [Display(Name = "Nombres")]
-        public string Nombre { get; set; }
-
-        [Required]
-        [Display(Name = "Apellidos")]
-        [StringLength(60, MinimumLength = 3)]
-        public string Apellido { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Correo Electrónico")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(200, MinimumLength = 20)]
-        [Display(Name = "Direccion")]
-        public string Direccion { get; set; }
-
-        [Required]
-        [StringLength(11, MinimumLength = 8)]
-        [Display(Name = "Teléfono")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string Telefono { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 10)]
-        [Display(Name = "Nombre Primer Referencia")]
-        public string Referencia1 { get; set; }
-
-        [Required]
-        [StringLength(10, MinimumLength = 8)]
-        [Display(Name = "Telfono Primer Referencia")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string TelefonoReferencia1 { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 10)]
-        [Display(Name = "Nombre Segunda Referencia")]
-        public string Referencia2 { get; set; }
-
-        [Required]
-        [StringLength(12, MinimumLength = 8)]
-        [Display(Name = "Teléfono Segunda Referencia")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "Ingrese un numero telefonico correcto")]
-        public string TelefonoReferencia2 { get; set; }
+        [Display(Name = "Nombre De Usuario")]
+        public string UserName { get; set; }
+        public int PersonaId { get; set; }
+        public Persona Persona { get; set; }
     }
 
 
@@ -233,16 +125,7 @@ namespace Proyecto2.Models
             : this()
         {
             this.UserName = user.UserName;
-            this.Email = user.Email;
-            this.Dpi = user.Dpi;
-            this.Nombre = user.Nombre;
-            this.Apellido = user.Apellido;
-            this.Direccion = user.Direccion;
-            this.Telefono = user.Telefono;
-            this.Referencia1 = user.Referencia1;
-            this.Referencia2 = user.Referencia2;
-            this.TelefonoReferencia1 = user.TelefonoReferencia1;
-            this.TelefonoReferencia2 = user.TelefonoReferencia2;
+            this.PersonaId = user.PersonaId;
 
             var Db = new ApplicationDbContext();
 
@@ -265,16 +148,8 @@ namespace Proyecto2.Models
             }
         }
         public string UserName { get; set; }
-        public string Dpi { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Email { get; set; }
-        public string Direccion { get; set; }
-        public string Telefono { get; set; }
-        public string Referencia1 { get; set; } 
-        public string Referencia2 { get; set; }
-        public string TelefonoReferencia1 { get; set; }
-        public string TelefonoReferencia2 { get; set; }
+        public int? PersonaId { get; set; }
+        public Persona Persona { get; set; }
         public List<SelectRoleEditorViewModel> Roles { get; set; }
     }
 

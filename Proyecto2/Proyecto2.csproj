@@ -162,12 +162,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201504201532040_Initial.cs" />
-    <Compile Include="Migrations\201504201532040_Initial.Designer.cs">
-      <DependentUpon>201504201532040_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201504202215106_Initial.cs" />
+    <Compile Include="Migrations\201504202215106_Initial.Designer.cs">
+      <DependentUpon>201504202215106_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AbonoAhorro.cs" />
@@ -244,6 +245,12 @@
     <Content Include="Views\Account\UserRoles.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SelectRoleEditorViewModel.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Personas\Create.cshtml" />
+    <Content Include="Views\Personas\Delete.cshtml" />
+    <Content Include="Views\Personas\Details.cshtml" />
+    <Content Include="Views\Personas\Edit.cshtml" />
+    <Content Include="Views\Personas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -253,8 +260,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504201532040_Initial.resx">
-      <DependentUpon>201504201532040_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201504202215106_Initial.resx">
+      <DependentUpon>201504202215106_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

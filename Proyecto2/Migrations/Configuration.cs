@@ -35,17 +35,7 @@ namespace Proyecto2.Migrations
 
             var newUser = new Users()
             {
-                UserName = "Admin",
-                Dpi = "3057250680301",
-                Nombre = "Jorge Antonio",
-                Apellido = "Monterroso Aspuac",
-                Email = "admin@bgf.com",
-                Direccion = "San Lucas Sacatepéquez",
-                Telefono = "34563214",
-                Referencia1 = "Juan Lopez",
-                TelefonoReferencia1 = "59302965",
-                Referencia2 = "Bryam Paniagua",
-                TelefonoReferencia2 = "24755102"
+                UserName = "Admin"
             };
 
             success = idManager.CreateUser(newUser, "Kinal2015");

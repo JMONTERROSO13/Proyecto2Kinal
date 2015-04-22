@@ -8,73 +8,22 @@ namespace Proyecto2.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.AspNetRoles",
+                "dbo.Personas",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.AspNetUsers",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        UserName = c.String(nullable: false),
-                        PasswordHash = c.String(),
-                        SecurityStamp = c.String(),
-                        Dpi = c.String(maxLength: 13),
+                        Id = c.Int(nullable: false, identity: true),
+                        Dpi = c.String(nullable: false, maxLength: 13),
                         Nombre = c.String(maxLength: 60),
+                        Email = c.String(nullable: false),
                         Apellido = c.String(maxLength: 60),
-                        Email = c.String(),
-                        Direccion = c.String(maxLength: 200),
-                        Telefono = c.String(maxLength: 11),
+                        direccion = c.String(maxLength: 200),
+                        telefono = c.String(maxLength: 10),
                         Referencia1 = c.String(maxLength: 100),
                         TelefonoReferencia1 = c.String(maxLength: 10),
                         Referencia2 = c.String(maxLength: 100),
                         TelefonoReferencia2 = c.String(maxLength: 12),
-                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.AspNetUserClaims",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ClaimType = c.String(),
-                        ClaimValue = c.String(),
-                        User_Id = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.User_Id, cascadeDelete: true)
-                .Index(t => t.User_Id);
-            
-            CreateTable(
-                "dbo.AspNetUserLogins",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        LoginProvider = c.String(nullable: false, maxLength: 128),
-                        ProviderKey = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.LoginProvider, t.ProviderKey })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.AspNetUserRoles",
-                c => new
-                    {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
             
             CreateTable(
                 "dbo.Cuentas",
@@ -85,11 +34,11 @@ namespace Proyecto2.Migrations
                         TipoID = c.Int(nullable: false),
                         Tipo = c.Int(nullable: false),
                         saldo = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Users_Id = c.String(maxLength: 128),
+                        Persona_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Users_Id)
-                .Index(t => t.Users_Id);
+                .ForeignKey("dbo.Personas", t => t.Persona_Id)
+                .Index(t => t.Persona_Id);
             
             CreateTable(
                 "dbo.Prestamoes",
@@ -116,11 +65,11 @@ namespace Proyecto2.Migrations
                         TipoID = c.Int(nullable: false),
                         Tipo = c.Int(nullable: false),
                         saldo = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Users_Id = c.String(maxLength: 128),
+                        Persona_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Users_Id)
-                .Index(t => t.Users_Id);
+                .ForeignKey("dbo.Personas", t => t.Persona_Id)
+                .Index(t => t.Persona_Id);
             
             CreateTable(
                 "dbo.TarjetaDebitoes",
@@ -222,11 +171,11 @@ namespace Proyecto2.Migrations
                         TipoID = c.Int(nullable: false),
                         Tipo = c.Int(nullable: false),
                         saldo = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Users_Id = c.String(maxLength: 128),
+                        Persona_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Users_Id)
-                .Index(t => t.Users_Id);
+                .ForeignKey("dbo.Personas", t => t.Persona_Id)
+                .Index(t => t.Persona_Id);
             
             CreateTable(
                 "dbo.AbonoAhorroes",
@@ -254,15 +203,82 @@ namespace Proyecto2.Migrations
                 .ForeignKey("dbo.CuentaAhorroes", t => t.CuentaAhorroId, cascadeDelete: true)
                 .Index(t => t.CuentaAhorroId);
             
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.AspNetUsers",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        UserName = c.String(nullable: false),
+                        PasswordHash = c.String(),
+                        SecurityStamp = c.String(),
+                        PersonaId = c.Int(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Personas", t => t.PersonaId)
+                .Index(t => t.PersonaId);
+            
+            CreateTable(
+                "dbo.AspNetUserClaims",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ClaimType = c.String(),
+                        ClaimValue = c.String(),
+                        User_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id, cascadeDelete: true)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.AspNetUserLogins",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        LoginProvider = c.String(nullable: false, maxLength: 128),
+                        ProviderKey = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.LoginProvider, t.ProviderKey })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId)
+                .Index(t => t.RoleId);
+            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.CuentaMonetarias", "Users_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CuentaAhorroes", "Users_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "PersonaId", "dbo.Personas");
+            DropForeignKey("dbo.AspNetUserClaims", "User_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.CuentaMonetarias", "Persona_Id", "dbo.Personas");
+            DropForeignKey("dbo.CuentaAhorroes", "Persona_Id", "dbo.Personas");
             DropForeignKey("dbo.RetiroAhorroes", "CuentaAhorroId", "dbo.CuentaAhorroes");
             DropForeignKey("dbo.AbonoAhorroes", "CuentaAhorroId", "dbo.CuentaAhorroes");
-            DropForeignKey("dbo.Cuentas", "Users_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Cuentas", "Persona_Id", "dbo.Personas");
             DropForeignKey("dbo.TarjetaCreditoes", "Cuenta_Id", "dbo.Cuentas");
             DropForeignKey("dbo.TarjetaDebitoes", "Cuenta_Id", "dbo.Cuentas");
             DropForeignKey("dbo.Prestamoes", "Cuenta_Id", "dbo.Cuentas");
@@ -274,13 +290,14 @@ namespace Proyecto2.Migrations
             DropForeignKey("dbo.TarjetaDebitoes", "CuentaMonetariaId", "dbo.CuentaMonetarias");
             DropForeignKey("dbo.AbonoDebitoes", "TarjetaDebitoId", "dbo.TarjetaDebitoes");
             DropForeignKey("dbo.Prestamoes", "CuentaMonetariaId", "dbo.CuentaMonetarias");
-            DropForeignKey("dbo.AspNetUserClaims", "User_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "PersonaId" });
             DropIndex("dbo.RetiroAhorroes", new[] { "CuentaAhorroId" });
             DropIndex("dbo.AbonoAhorroes", new[] { "CuentaAhorroId" });
-            DropIndex("dbo.CuentaAhorroes", new[] { "Users_Id" });
+            DropIndex("dbo.CuentaAhorroes", new[] { "Persona_Id" });
             DropIndex("dbo.PagoCreditoes", new[] { "TarjetaCreditoId" });
             DropIndex("dbo.CargoCreditoes", new[] { "TarjetaCredito_Id" });
             DropIndex("dbo.CargoCreditoes", new[] { "CuentaMonetariaId" });
@@ -290,14 +307,15 @@ namespace Proyecto2.Migrations
             DropIndex("dbo.AbonoDebitoes", new[] { "TarjetaDebitoId" });
             DropIndex("dbo.TarjetaDebitoes", new[] { "Cuenta_Id" });
             DropIndex("dbo.TarjetaDebitoes", new[] { "CuentaMonetariaId" });
-            DropIndex("dbo.CuentaMonetarias", new[] { "Users_Id" });
+            DropIndex("dbo.CuentaMonetarias", new[] { "Persona_Id" });
             DropIndex("dbo.Prestamoes", new[] { "Cuenta_Id" });
             DropIndex("dbo.Prestamoes", new[] { "CuentaMonetariaId" });
-            DropIndex("dbo.Cuentas", new[] { "Users_Id" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
+            DropIndex("dbo.Cuentas", new[] { "Persona_Id" });
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.AspNetRoles");
             DropTable("dbo.RetiroAhorroes");
             DropTable("dbo.AbonoAhorroes");
             DropTable("dbo.CuentaAhorroes");
@@ -310,11 +328,7 @@ namespace Proyecto2.Migrations
             DropTable("dbo.CuentaMonetarias");
             DropTable("dbo.Prestamoes");
             DropTable("dbo.Cuentas");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Personas");
         }
     }
 }

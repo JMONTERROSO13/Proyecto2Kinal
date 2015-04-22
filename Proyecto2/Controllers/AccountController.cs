@@ -61,7 +61,8 @@ namespace Proyecto2.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -69,13 +70,15 @@ namespace Proyecto2.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]       
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = model.GetUser();
+                // CREAR CAMPOS DE LA PERSONA
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -182,10 +185,10 @@ namespace Proyecto2.Controllers
         {
             var Db = new ApplicationDbContext();
             var users = Db.Users;
-            var model = new List<EditUserViewModel>();
+            var model = new List<UserViewModel>();
             foreach (var user in users)
             {
-                var u = new EditUserViewModel(user);
+                var u = new UserViewModel(user);
                 model.Add(u);
             }
             return View(model);
@@ -196,7 +199,7 @@ namespace Proyecto2.Controllers
         {
             var Db = new ApplicationDbContext();
             var user = Db.Users.First(u => u.UserName == id);
-            var model = new EditUserViewModel(user);
+            var model = new EditUserViewModel(user, Db.Personas.ToList());
             ViewBag.MessageId = Message;
             return View(model);
         }
@@ -214,17 +217,6 @@ namespace Proyecto2.Controllers
 
                 // Update the user data:
                 user.UserName = model.UserName;
-                user.Email = model.Email;
-                user.Dpi = model.Dpi;
-                user.Nombre = model.Nombre;
-                user.Apellido = model.Apellido;
-                user.Direccion = model.Direccion;
-                user.Telefono = model.Telefono;
-                user.Referencia1 = model.Referencia1;
-                user.Referencia2 = model.Referencia2;
-                user.TelefonoReferencia1 = model.TelefonoReferencia1;
-                user.TelefonoReferencia2 = model.TelefonoReferencia2;
-                user.Email = model.Email;
 
                 Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 await Db.SaveChangesAsync();
@@ -240,7 +232,7 @@ namespace Proyecto2.Controllers
         {
             var Db = new ApplicationDbContext();
             var user = Db.Users.First(u => u.UserName == id);
-            var model = new EditUserViewModel(user);
+            var model = new UserViewModel(user);
             if (user == null)
             {
                 return HttpNotFound();
